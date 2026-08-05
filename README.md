@@ -1,6 +1,6 @@
 # Daymark
 
-Daymark is a small, mobile-friendly web app for calculating daily work hours. It runs entirely in the browser and requires no build step, framework, or external dependency.
+Daymark is a small, mobile-friendly, mostly vibe-coded web app for calculating daily work hours. It runs entirely in the browser and requires no build step, framework, or external dependency.
 
 ## Features
 
