@@ -245,7 +245,7 @@
         <form id="stop-form">
           <div class="time-grid">
             <div><label for="stop-start">Start time</label><input id="stop-start" type="time" value="08:00" required></div>
-            <div><label for="desired-hours">Desired hours</label><input id="desired-hours" type="number" min="0.01" max="24" step="0.25" value="8" required></div>
+            <div><label for="desired-hours">Desired hours</label><input id="desired-hours" type="number" min="0.0" max="24" step="0.1" value="8" required></div>
           </div>
 
           <div class="divider"></div>
@@ -365,12 +365,12 @@
       const error = document.querySelector('#stop-error');
       error.textContent = '';
       const startValue = document.querySelector('#stop-start').value;
-      const desiredHours = Number(document.querySelector('#desired-hours').value);
+      const desiredHours = document.querySelector('#desired-hours').valueAsNumber;
       const breakValues = getBreakMinutes(form);
 
       if (!startValue) return;
-      if (!Number.isFinite(desiredHours) || desiredHours <= 0 || desiredHours > 24) {
-        error.textContent = 'Enter desired hours between 0 and 24.';
+      if (!Number.isFinite(desiredHours) || desiredHours < 0.25 || desiredHours > 24) {
+        error.textContent = 'Enter desired hours between 0.25 and 24.';
         return;
       }
       if (breakValues.some(value => !Number.isFinite(value) || value < 0)) {
