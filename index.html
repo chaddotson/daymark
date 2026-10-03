@@ -89,7 +89,7 @@
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    .shell { width: min(860px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 40px; }
+    .shell { width: min(1000px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 40px; }
     header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
     .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -.03em; }
     .mark { display: block; width: 36px; height: 36px; border-radius: 9px; }
@@ -100,18 +100,19 @@
     .theme-select:focus-visible { border-color: var(--green); box-shadow: 0 0 0 3px var(--focus-ring); }
 
     .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 14px; padding: 4px; border: 1px solid var(--card-border); border-radius: 14px; background: var(--tabs-bg); }
-    .tab { min-height: 42px; border-radius: 10px; background: transparent; color: var(--muted); font-size: .88rem; font-weight: 800; transition: color .18s, background .18s, box-shadow .18s; }
+    .tab { min-height: 44px; border-radius: 10px; background: transparent; color: var(--muted); font-size: .88rem; font-weight: 800; transition: color .18s, background .18s, box-shadow .18s; }
     .tab[aria-selected="true"] { color: var(--ink); background: var(--card); box-shadow: 0 4px 14px rgba(25, 45, 35, .09); }
     .tab:focus-visible { outline: 3px solid rgba(40, 102, 74, .22); outline-offset: 2px; }
     .tab-panel[hidden] { display: none; }
 
-    main { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(240px, .7fr); gap: 18px; align-items: stretch; }
+    main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(290px, .65fr); gap: 18px; align-items: stretch; }
     .card { background: var(--card); border: 1px solid var(--card-border); border-radius: 24px; box-shadow: var(--shadow); }
     .entry { padding: clamp(24px, 4vw, 34px); }
     h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 500; letter-spacing: -.045em; line-height: 1; }
     .intro { margin: 8px 0 24px; color: var(--muted); font-size: .94rem; }
 
-    .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .time-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+    .time-grid > * { min-width: 0; }
     label { display: block; margin: 0 0 7px; color: var(--muted); font-size: .78rem; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
     input[type="time"], input[type="number"] { width: 100%; height: 50px; min-height: 50px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 0 14px; color: var(--ink); font: inherit; font-size: 1rem; line-height: 1; outline: none; transition: border-color .18s, box-shadow .18s; }
     input:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--focus-ring); }
@@ -120,25 +121,38 @@
     .break-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
     h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 1.3rem; font-weight: 600; }
     .break-row { display: grid; grid-template-columns: 1fr 42px; align-items: end; gap: 8px; margin-top: 10px; }
+    .break-row.fixed-break { grid-template-columns: 1fr; }
     button { border: 0; font: inherit; cursor: pointer; }
-    .add-break { padding: 0; color: var(--green); background: transparent; font-size: .85rem; font-weight: 750; }
+    .add-break { min-height: 40px; padding: 0 10px; border-radius: 10px; color: var(--green); background: transparent; font-size: .85rem; font-weight: 750; }
     .remove-break { height: 50px; border: 1px solid var(--line); border-radius: 12px; background: transparent; color: var(--muted); font-size: 1.25rem; }
     .remove-break:hover { color: var(--danger); border-color: var(--danger-line); }
     .calculate { width: 100%; margin-top: 18px; min-height: 50px; border-radius: 14px; background: var(--green); color: white; font-weight: 800; box-shadow: 0 10px 25px rgba(40, 102, 74, .2); transition: background .18s, transform .18s; }
     .calculate:hover { background: var(--green-dark); transform: translateY(-1px); }
+    .add-break:focus-visible, .remove-break:focus-visible, .calculate:focus-visible { outline: 3px solid rgba(40, 102, 74, .22); outline-offset: 2px; }
 
     .result { padding: 28px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; position: relative; background: var(--green); color: white; }
     .result > div:first-child { min-width: 0; }
     .result::after { content: ""; position: absolute; width: 210px; height: 210px; right: -100px; bottom: -90px; border: 36px solid rgba(255,255,255,.07); border-radius: 50%; }
     .result-label { color: rgba(255,255,255,.72); font-size: .75rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-    .result-value { margin: 24px 0 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(4rem, 10vw, 6rem); line-height: .85; letter-spacing: -.06em; }
+    .result-value { margin: 24px 0 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(3.5rem, 8vw, 5rem); font-variant-numeric: tabular-nums; line-height: .85; letter-spacing: -.06em; }
     .result-value.clock-value { font-size: clamp(2.5rem, 4vw, 3.25rem); letter-spacing: -.075em; white-space: nowrap; }
     .result-unit { margin: 12px 0 0 5px; color: var(--mint); font-size: .95rem; }
     .summary { position: relative; z-index: 1; margin-top: 44px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.22); color: rgba(255,255,255,.78); font-size: .9rem; line-height: 1.55; }
     .error { min-height: 22px; margin: 12px 0 -10px; color: var(--danger); font-size: .88rem; }
 
+    @media (max-width: 860px) {
+      .shell { width: min(100% - 28px, 820px); padding: 24px 0 28px; }
+      main { grid-template-columns: 1fr; gap: 14px; }
+      .result { min-height: 150px; flex-direction: row; align-items: center; gap: 24px; }
+      .result > div:first-child { flex: 1 1 auto; min-width: 0; }
+      .result-value { display: inline; margin: 0; font-size: 4rem; }
+      .result-value.clock-value { display: block; font-size: clamp(2.4rem, 7vw, 3.25rem); }
+      .result-unit { display: inline; margin: 0 0 0 7px; }
+      .summary { flex: 0 1 240px; min-width: 0; max-width: 240px; margin: 0; padding: 0 0 0 24px; border-top: 0; border-left: 1px solid rgba(255,255,255,.22); }
+    }
+
     @media (max-width: 720px) {
-      .shell { width: min(100% - 20px, 560px); padding: 10px 0 16px; }
+      .shell { width: min(100% - 20px, 680px); padding: 10px 0 16px; }
       header { margin-bottom: 10px; }
       .tabs { margin-bottom: 10px; }
       .tab { min-height: 40px; font-size: .8rem; }
@@ -146,18 +160,20 @@
       .brand { gap: 9px; }
       .today { font-size: .78rem; }
       .header-actions { gap: 8px; }
-      .theme-select { min-height: 32px; padding-left: 8px; font-size: .72rem; }
+      .theme-select { min-height: 34px; padding-left: 8px; font-size: .74rem; }
       main { grid-template-columns: 1fr; gap: 10px; }
       .card { border-radius: 18px; box-shadow: var(--shadow); }
       .entry { padding: 18px; }
       h1 { font-size: 1.75rem; }
-      .intro { margin: 4px 0 16px; font-size: .82rem; }
-      label { margin-bottom: 5px; font-size: .69rem; }
+      .intro { margin: 4px 0 16px; font-size: .84rem; }
+      label { margin-bottom: 5px; font-size: .72rem; }
       input[type="time"], input[type="number"] { height: 44px; min-height: 44px; padding: 0 10px; line-height: 1; }
       .divider { margin: 14px 0; }
       .break-heading { margin-bottom: 6px; }
       h2 { font-size: 1.08rem; }
       .break-row { grid-template-columns: 1fr 40px; margin-top: 7px; }
+      .break-row.fixed-break { grid-template-columns: 1fr; }
+      .add-break { min-height: 40px; }
       .remove-break { height: 44px; }
       .error { min-height: 17px; margin: 6px 0 -6px; font-size: .78rem; }
       .calculate { min-height: 46px; margin-top: 12px; }
@@ -169,13 +185,34 @@
       .summary { flex: 0 1 145px; min-width: 0; margin: 0; padding: 0 0 0 16px; border-top: 0; border-left: 1px solid rgba(255,255,255,.22); max-width: 145px; overflow-wrap: anywhere; font-size: .78rem; }
     }
 
-    @media (max-width: 380px) {
+    @media (max-width: 560px) {
       .today { display: none; }
+    }
+
+    @media (max-width: 380px) {
       .entry { padding: 15px; }
       .result { min-height: 102px; padding: 14px 17px; gap: 10px; }
       .result-value { font-size: 3rem; }
-      .result-value.clock-value { font-size: clamp(1.9rem, 10.5vw, 2.35rem); }
-      .summary { flex-basis: 128px; padding-left: 12px; }
+      .result-value.clock-value { font-size: clamp(1.7rem, 9vw, 2.1rem); }
+      .summary { flex-basis: 132px; max-width: 132px; padding-left: 12px; font-size: .76rem; }
+    }
+
+    @media (max-width: 720px) and (max-height: 700px) {
+      .shell { padding-top: 6px; padding-bottom: 10px; }
+      header { margin-bottom: 6px; }
+      .tabs { margin-bottom: 6px; }
+      .entry { padding-top: 15px; padding-bottom: 15px; }
+      .intro { margin-bottom: 12px; }
+      .divider { margin: 10px 0; }
+      .break-heading { margin-bottom: 2px; }
+      .break-row { margin-top: 4px; }
+      .error { min-height: 14px; margin-top: 3px; margin-bottom: -5px; }
+      .calculate { min-height: 44px; margin-top: 8px; }
+      .result { min-height: 96px; padding-top: 12px; padding-bottom: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      input, button { transition: none !important; }
     }
   </style>
 </head>
@@ -216,9 +253,8 @@
             <button class="add-break" type="button" id="add-break">+ Add break</button>
           </div>
           <div id="breaks">
-            <div class="break-row">
-              <div><label for="lunch">Lunch (minutes)</label><input class="break-minutes" id="lunch" type="number" min="0" step="1" value="30" required></div>
-              <span aria-hidden="true"></span>
+            <div class="break-row fixed-break">
+              <div><label for="lunch">Lunch (minutes)</label><input class="break-minutes" id="lunch" type="number" min="0" step="1" inputmode="numeric" value="30" required></div>
             </div>
           </div>
           <p class="error" id="error" role="alert"></p>
@@ -244,7 +280,7 @@
         <form id="stop-form">
           <div class="time-grid">
             <div><label for="stop-start">Start time</label><input id="stop-start" type="time" value="08:00" required></div>
-            <div><label for="desired-hours">Desired hours</label><input id="desired-hours" type="number" min="0.0" max="24" step="0.1" value="8" required></div>
+            <div><label for="desired-hours">Desired hours</label><input id="desired-hours" type="number" min="0.25" max="24" step="0.25" inputmode="decimal" value="8" required></div>
           </div>
 
           <div class="divider"></div>
@@ -253,9 +289,8 @@
             <button class="add-break" type="button" id="add-stop-break">+ Add break</button>
           </div>
           <div id="stop-breaks">
-            <div class="break-row">
-              <div><label for="stop-lunch">Lunch (minutes)</label><input class="break-minutes" id="stop-lunch" type="number" min="0" step="1" value="30" required></div>
-              <span aria-hidden="true"></span>
+            <div class="break-row fixed-break">
+              <div><label for="stop-lunch">Lunch (minutes)</label><input class="break-minutes" id="stop-lunch" type="number" min="0" step="1" inputmode="numeric" value="30" required></div>
             </div>
           </div>
           <p class="error" id="stop-error" role="alert"></p>
@@ -384,10 +419,13 @@
       document.querySelector('#stop-summary').textContent = `${formatDuration(Math.round(desiredHours * 60))} goal · ${formatDuration(totalBreak)} in breaks${nextDay}`;
     }
 
+    let breakSequence = 0;
+
     function addBreak(container, calculate) {
       const row = document.createElement('div');
+      const inputId = `${container.id}-break-${++breakSequence}`;
       row.className = 'break-row';
-      row.innerHTML = `<div><label>Optional break (minutes)</label><input class="break-minutes" type="number" min="0" step="1" value="0" required></div><button class="remove-break" type="button" aria-label="Remove break">×</button>`;
+      row.innerHTML = `<div><label for="${inputId}">Optional break (minutes)</label><input class="break-minutes" id="${inputId}" type="number" min="0" step="1" inputmode="numeric" value="0" required></div><button class="remove-break" type="button" aria-label="Remove break">×</button>`;
       row.querySelector('.remove-break').addEventListener('click', () => { row.remove(); calculate(); });
       container.appendChild(row);
       row.querySelector('input').focus();
