@@ -23,6 +23,7 @@
       --line: #d8d5cb;
       --green: #28664a;
       --green-dark: #1d4b37;
+      --action: #28664a;
       --mint: #dcecdf;
       --orange: #df7139;
       --card-border: rgba(23, 35, 30, .08);
@@ -43,6 +44,7 @@
       --line: #35453c;
       --green: #337d5c;
       --green-dark: #286449;
+      --action: #80c9a0;
       --mint: #dcecdf;
       --orange: #f09a67;
       --card-border: rgba(220, 236, 223, .09);
@@ -64,6 +66,7 @@
         --line: #35453c;
         --green: #337d5c;
         --green-dark: #286449;
+        --action: #80c9a0;
         --mint: #dcecdf;
         --orange: #f09a67;
         --card-border: rgba(220, 236, 223, .09);
@@ -102,7 +105,7 @@
     .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 14px; padding: 4px; border: 1px solid var(--card-border); border-radius: 14px; background: var(--tabs-bg); }
     .tab { min-height: 44px; border-radius: 10px; background: transparent; color: var(--muted); font-size: .88rem; font-weight: 800; transition: color .18s, background .18s, box-shadow .18s; }
     .tab[aria-selected="true"] { color: var(--ink); background: var(--card); box-shadow: 0 4px 14px rgba(25, 45, 35, .09); }
-    .tab:focus-visible { outline: 3px solid rgba(40, 102, 74, .22); outline-offset: 2px; }
+    .tab:focus-visible { outline: 3px solid var(--action); outline-offset: 2px; }
     .tab-panel[hidden] { display: none; }
 
     main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(290px, .65fr); gap: 18px; align-items: stretch; }
@@ -116,6 +119,7 @@
     label { display: block; margin: 0 0 7px; color: var(--muted); font-size: .78rem; font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
     input[type="time"], input[type="number"] { width: 100%; height: 50px; min-height: 50px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: 0 14px; color: var(--ink); font: inherit; font-size: 1rem; line-height: 1; outline: none; transition: border-color .18s, box-shadow .18s; }
     input:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--focus-ring); }
+    input[aria-invalid="true"] { border-color: var(--danger); }
 
     .divider { height: 1px; margin: 20px 0; background: var(--line); }
     .break-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
@@ -123,12 +127,12 @@
     .break-row { display: grid; grid-template-columns: 1fr 42px; align-items: end; gap: 8px; margin-top: 10px; }
     .break-row.fixed-break { grid-template-columns: 1fr; }
     button { border: 0; font: inherit; cursor: pointer; }
-    .add-break { min-height: 40px; padding: 0 10px; border-radius: 10px; color: var(--green); background: transparent; font-size: .85rem; font-weight: 750; }
+    .add-break { min-height: 40px; padding: 0 10px; border-radius: 10px; color: var(--action); background: transparent; font-size: .85rem; font-weight: 750; }
     .remove-break { height: 50px; border: 1px solid var(--line); border-radius: 12px; background: transparent; color: var(--muted); font-size: 1.25rem; }
     .remove-break:hover { color: var(--danger); border-color: var(--danger-line); }
     .calculate { width: 100%; margin-top: 18px; min-height: 50px; border-radius: 14px; background: var(--green); color: white; font-weight: 800; box-shadow: 0 10px 25px rgba(40, 102, 74, .2); transition: background .18s, transform .18s; }
     .calculate:hover { background: var(--green-dark); transform: translateY(-1px); }
-    .add-break:focus-visible, .remove-break:focus-visible, .calculate:focus-visible { outline: 3px solid rgba(40, 102, 74, .22); outline-offset: 2px; }
+    .add-break:focus-visible, .remove-break:focus-visible, .calculate:focus-visible { outline: 3px solid var(--action); outline-offset: 2px; }
 
     .result { padding: 28px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; position: relative; background: var(--green); color: white; }
     .result > div:first-child { min-width: 0; }
@@ -137,8 +141,10 @@
     .result-value { margin: 24px 0 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(3.5rem, 8vw, 5rem); font-variant-numeric: tabular-nums; line-height: .85; letter-spacing: -.06em; }
     .result-value.clock-value { font-size: clamp(2.5rem, 4vw, 3.25rem); letter-spacing: -.075em; white-space: nowrap; }
     .result-unit { margin: 12px 0 0 5px; color: var(--mint); font-size: .95rem; }
+    .result[data-state="invalid"] .result-unit { visibility: hidden; }
     .summary { position: relative; z-index: 1; margin-top: 44px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.22); color: rgba(255,255,255,.78); font-size: .9rem; line-height: 1.55; }
     .error { min-height: 22px; margin: 12px 0 -10px; color: var(--danger); font-size: .88rem; }
+    .error:empty { display: none; }
 
     @media (max-width: 860px) {
       .shell { width: min(100% - 28px, 820px); padding: 24px 0 28px; }
@@ -177,12 +183,12 @@
       .remove-break { height: 44px; }
       .error { min-height: 17px; margin: 6px 0 -6px; font-size: .78rem; }
       .calculate { min-height: 46px; margin-top: 12px; }
-      .result { min-height: 112px; padding: 17px 20px; flex-direction: row; align-items: center; gap: 16px; }
+      .result { min-height: 112px; padding: 17px 20px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: 16px; }
       .result > div:first-child { flex: 1 1 auto; min-width: 0; }
       .result-value { display: inline; margin: 0; font-size: 3.4rem; }
-      .result-value.clock-value { display: block; font-size: clamp(2rem, 10.5vw, 2.75rem); letter-spacing: -.075em; }
+      .result-value.clock-value { display: block; font-size: clamp(1.6rem, 8vw, 2.75rem); letter-spacing: -.075em; }
       .result-unit { display: inline; margin: 0 0 0 7px; font-size: .78rem; }
-      .summary { flex: 0 1 145px; min-width: 0; margin: 0; padding: 0 0 0 16px; border-top: 0; border-left: 1px solid rgba(255,255,255,.22); max-width: 145px; overflow-wrap: anywhere; font-size: .78rem; }
+      .summary { min-width: 0; margin: 0; padding: 0 0 0 16px; border-top: 0; border-left: 1px solid rgba(255,255,255,.22); max-width: none; overflow-wrap: anywhere; font-size: .78rem; }
     }
 
     @media (max-width: 560px) {
@@ -193,8 +199,7 @@
       .entry { padding: 15px; }
       .result { min-height: 102px; padding: 14px 17px; gap: 10px; }
       .result-value { font-size: 3rem; }
-      .result-value.clock-value { font-size: clamp(1.7rem, 9vw, 2.1rem); }
-      .summary { flex-basis: 132px; max-width: 132px; padding-left: 12px; font-size: .76rem; }
+      .summary { padding-left: 12px; font-size: .76rem; }
     }
 
     @media (max-width: 720px) and (max-height: 700px) {
@@ -209,6 +214,15 @@
       .error { min-height: 14px; margin-top: 3px; margin-bottom: -5px; }
       .calculate { min-height: 44px; margin-top: 8px; }
       .result { min-height: 96px; padding-top: 12px; padding-bottom: 12px; }
+    }
+
+    @media (max-width: 720px) and (max-height: 540px) {
+      .shell { padding-bottom: 6px; }
+      main { gap: 8px; }
+      .entry { padding-top: 12px; padding-bottom: 12px; }
+      h1 { margin-bottom: 8px; }
+      .intro { display: none; }
+      .divider { margin: 7px 0; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -241,7 +255,7 @@
         <h1>Today’s hours</h1>
         <p class="intro">Enter your shift and breaks.</p>
 
-        <form id="tracker-form">
+        <form id="tracker-form" novalidate>
           <div class="time-grid">
             <div><label for="start">Start time</label><input id="start" type="time" value="08:00" required></div>
             <div><label for="end">End time</label><input id="end" type="time" value="16:30" required></div>
@@ -254,15 +268,15 @@
           </div>
           <div id="breaks">
             <div class="break-row fixed-break">
-              <div><label for="lunch">Lunch (minutes)</label><input class="break-minutes" id="lunch" type="number" min="0" step="1" inputmode="numeric" value="30" required></div>
+              <div><label for="lunch">Lunch (minutes)</label><input class="break-minutes" id="lunch" type="number" min="0" max="1440" step="1" inputmode="numeric" value="30" required></div>
             </div>
           </div>
-          <p class="error" id="error" role="alert"></p>
+          <p class="error" id="error"></p>
           <button class="calculate" type="submit">Calculate hours</button>
         </form>
       </section>
 
-      <aside class="card result" aria-live="polite">
+      <aside class="card result">
         <div>
           <div class="result-label">Hours worked</div>
           <div class="result-value" id="hours"></div>
@@ -270,6 +284,7 @@
         </div>
         <div class="summary" id="summary"></div>
       </aside>
+      <p class="sr-only" id="hours-status" role="status" aria-live="polite" aria-atomic="true"></p>
     </main>
 
     <main class="tab-panel" id="stop-panel" role="tabpanel" aria-labelledby="stop-tab" hidden>
@@ -277,10 +292,10 @@
         <h1>Clock-out time</h1>
         <p class="intro">See when you’ll hit your goal.</p>
 
-        <form id="stop-form">
+        <form id="stop-form" novalidate>
           <div class="time-grid">
             <div><label for="stop-start">Start time</label><input id="stop-start" type="time" value="08:00" required></div>
-            <div><label for="desired-hours">Desired hours</label><input id="desired-hours" type="number" min="0.25" max="24" step="0.25" inputmode="decimal" value="8" required></div>
+            <div><label for="desired-hours">Desired hours</label><input id="desired-hours" type="number" min="0.1" max="24" step="0.1" inputmode="decimal" value="8" required></div>
           </div>
 
           <div class="divider"></div>
@@ -290,21 +305,22 @@
           </div>
           <div id="stop-breaks">
             <div class="break-row fixed-break">
-              <div><label for="stop-lunch">Lunch (minutes)</label><input class="break-minutes" id="stop-lunch" type="number" min="0" step="1" inputmode="numeric" value="30" required></div>
+              <div><label for="stop-lunch">Lunch (minutes)</label><input class="break-minutes" id="stop-lunch" type="number" min="0" max="1440" step="1" inputmode="numeric" value="30" required></div>
             </div>
           </div>
-          <p class="error" id="stop-error" role="alert"></p>
+          <p class="error" id="stop-error"></p>
           <button class="calculate" type="submit">Calculate stop time</button>
         </form>
       </section>
 
-      <aside class="card result" aria-live="polite">
+      <aside class="card result">
         <div>
           <div class="result-label">Stop time</div>
           <div class="result-value clock-value" id="stop-time"></div>
         </div>
         <div class="summary" id="stop-summary"></div>
       </aside>
+      <p class="sr-only" id="stop-status" role="status" aria-live="polite" aria-atomic="true"></p>
     </main>
   </div>
 
@@ -350,36 +366,89 @@
       return `${hours ? `${hours} hr` : ''}${hours && mins ? ' ' : ''}${mins ? `${mins} min` : ''}` || '0 min';
     }
 
-    function getBreakMinutes(form) {
-      return [...form.querySelectorAll('.break-minutes')].map(input => Number(input.value));
+    const calculatorViews = {
+      'tracker-form': { value: 'hours', summary: 'summary', status: 'hours-status', label: 'Hours worked', unit: ' hours' },
+      'stop-form': { value: 'stop-time', summary: 'stop-summary', status: 'stop-status', label: 'Stop time', unit: '' },
+    };
+
+    function validateInputs(form) {
+      const inputs = [...form.querySelectorAll('input')];
+      for (const input of inputs) {
+        if (input.validity.valid) continue;
+        let error;
+        if (input.classList.contains('break-minutes')) {
+          error = input.validity.valueMissing
+            ? 'Enter break minutes; use 0 for no break.'
+            : 'Enter whole break minutes between 0 and 1440.';
+        } else if (input.id === 'desired-hours') {
+          error = input.validity.valueMissing
+            ? 'Enter desired hours.'
+            : 'Enter 0.1 to 24 hours in tenths of an hour.';
+        } else {
+          error = `Enter a valid ${input.id.includes('start') ? 'start' : 'end'} time.`;
+        }
+        return { input, error };
+      }
+      return null;
     }
 
-    function calculateHours(event) {
-      event?.preventDefault();
-      const form = document.querySelector('#tracker-form');
-      const error = document.querySelector('#error');
-      error.textContent = '';
-      const startValue = document.querySelector('#start').value;
-      const endValue = document.querySelector('#end').value;
-      if (!startValue || !endValue) return;
+    function readBreaks(form) {
+      const inputs = [...form.querySelectorAll('.break-minutes')];
+      const total = inputs.reduce((sum, input) => sum + input.valueAsNumber, 0);
+      if (!Number.isSafeInteger(total) || total > 24 * 60) {
+        return { input: inputs.find(input => input.valueAsNumber > 0) || inputs[0], error: 'Total breaks cannot exceed 24 hours.' };
+      }
+      return { total, inputs };
+    }
 
-      const start = minutesFromMidnight(startValue);
-      let end = minutesFromMidnight(endValue);
+    function displayCalculation(form, result) {
+      const view = calculatorViews[form.id];
+      const value = document.getElementById(view.value);
+      const summary = document.getElementById(view.summary);
+      const error = form.querySelector('.error');
+      if (error.textContent !== (result.error || '')) error.textContent = result.error || '';
+      value.textContent = result.error ? '—' : result.value;
+      summary.textContent = result.error ? '' : result.summary;
+      value.closest('.result').dataset.state = result.error ? 'invalid' : 'valid';
+      form.querySelectorAll('input').forEach(input => {
+        if (result.error && input === result.input) {
+          if (input.getAttribute('aria-invalid') !== 'true') input.setAttribute('aria-invalid', 'true');
+          if (input.getAttribute('aria-describedby') !== error.id) input.setAttribute('aria-describedby', error.id);
+        } else {
+          input.removeAttribute('aria-invalid');
+          input.removeAttribute('aria-describedby');
+        }
+      });
+      return result;
+    }
+
+    function announceCalculation(form, result, prefix = '') {
+      const view = calculatorViews[form.id];
+      const message = result.error || `${view.label}: ${result.value}${view.unit}. ${result.summary}.`;
+      const status = document.getElementById(view.status);
+      const text = `${prefix}${message}`;
+      if (status.textContent !== text) status.textContent = text;
+    }
+
+    function calculateHours() {
+      const form = document.querySelector('#tracker-form');
+      const problem = validateInputs(form);
+      if (problem) return displayCalculation(form, problem);
+      const breaks = readBreaks(form);
+      if (breaks.error) return displayCalculation(form, breaks);
+
+      const start = minutesFromMidnight(document.querySelector('#start').value);
+      let end = minutesFromMidnight(document.querySelector('#end').value);
       if (end < start) end += 24 * 60;
       const shift = end - start;
-      const breakValues = getBreakMinutes(form);
-      if (breakValues.some(value => !Number.isFinite(value) || value < 0)) {
-        error.textContent = 'Enter a valid number of minutes for every break.';
-        return;
-      }
-      const totalBreak = breakValues.reduce((sum, value) => sum + value, 0);
-      if (totalBreak > shift) {
-        error.textContent = 'Break time cannot be longer than the shift.';
-        return;
+      if (breaks.total > shift) {
+        return displayCalculation(form, { input: breaks.inputs.find(input => input.valueAsNumber > 0), error: 'Break time cannot be longer than the shift.' });
       }
 
-      document.querySelector('#hours').textContent = ((shift - totalBreak) / 60).toFixed(2);
-      document.querySelector('#summary').textContent = `${formatDuration(shift)} shift · ${formatDuration(totalBreak)} in breaks`;
+      return displayCalculation(form, {
+        value: ((shift - breaks.total) / 60).toFixed(2),
+        summary: `${formatDuration(shift)} shift · ${formatDuration(breaks.total)} in breaks`,
+      });
     }
 
     function formatClockTime(totalMinutes) {
@@ -393,30 +462,19 @@
       return { time: `${hours12}:${String(minutes).padStart(2, '0')} ${period}`, dayOffset };
     }
 
-    function calculateStopTime(event) {
-      event?.preventDefault();
+    function calculateStopTime() {
       const form = document.querySelector('#stop-form');
-      const error = document.querySelector('#stop-error');
-      error.textContent = '';
-      const startValue = document.querySelector('#stop-start').value;
+      const problem = validateInputs(form);
+      if (problem) return displayCalculation(form, problem);
+      const breaks = readBreaks(form);
+      if (breaks.error) return displayCalculation(form, breaks);
       const desiredHours = document.querySelector('#desired-hours').valueAsNumber;
-      const breakValues = getBreakMinutes(form);
-
-      if (!startValue) return;
-      if (!Number.isFinite(desiredHours) || desiredHours < 0.25 || desiredHours > 24) {
-        error.textContent = 'Enter desired hours between 0.25 and 24.';
-        return;
-      }
-      if (breakValues.some(value => !Number.isFinite(value) || value < 0)) {
-        error.textContent = 'Enter a valid number of minutes for every break.';
-        return;
-      }
-
-      const totalBreak = breakValues.reduce((sum, value) => sum + value, 0);
-      const result = formatClockTime(minutesFromMidnight(startValue) + desiredHours * 60 + totalBreak);
-      document.querySelector('#stop-time').textContent = result.time;
+      const result = formatClockTime(minutesFromMidnight(document.querySelector('#stop-start').value) + desiredHours * 60 + breaks.total);
       const nextDay = result.dayOffset ? ` · ${result.dayOffset === 1 ? 'next day' : `${result.dayOffset} days later`}` : '';
-      document.querySelector('#stop-summary').textContent = `${formatDuration(Math.round(desiredHours * 60))} goal · ${formatDuration(totalBreak)} in breaks${nextDay}`;
+      return displayCalculation(form, {
+        value: result.time,
+        summary: `${formatDuration(Math.round(desiredHours * 60))} goal · ${formatDuration(breaks.total)} in breaks${nextDay}`,
+      });
     }
 
     let breakSequence = 0;
@@ -424,21 +482,42 @@
     function addBreak(container, calculate) {
       const row = document.createElement('div');
       const inputId = `${container.id}-break-${++breakSequence}`;
+      const form = container.closest('form');
       row.className = 'break-row';
-      row.innerHTML = `<div><label for="${inputId}">Optional break (minutes)</label><input class="break-minutes" id="${inputId}" type="number" min="0" step="1" inputmode="numeric" value="0" required></div><button class="remove-break" type="button" aria-label="Remove break">×</button>`;
-      row.querySelector('.remove-break').addEventListener('click', () => { row.remove(); calculate(); });
+      row.innerHTML = `<div><label for="${inputId}">Optional break (minutes)</label><input class="break-minutes" id="${inputId}" type="number" min="0" max="1440" step="1" inputmode="numeric" value="0" required></div><button class="remove-break" type="button" aria-label="Remove optional break">×</button>`;
+      row.querySelector('.remove-break').addEventListener('click', () => {
+        const nextFocus = row.nextElementSibling?.querySelector('input') || row.previousElementSibling?.querySelector('input') || form.querySelector('.add-break');
+        row.remove();
+        const result = calculate();
+        nextFocus.focus();
+        announceCalculation(form, result, 'Break removed. ');
+      });
       container.appendChild(row);
       row.querySelector('input').focus();
+      announceCalculation(form, calculate(), 'Break added. ');
+    }
+
+    function bindCalculator(form, calculate) {
+      form.addEventListener('input', () => {
+        const status = document.getElementById(calculatorViews[form.id].status);
+        if (status.textContent) status.textContent = '';
+        calculate();
+      });
+      form.addEventListener('change', () => announceCalculation(form, calculate()));
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const result = calculate();
+        if (result.error && result.input) result.input.focus();
+        announceCalculation(form, result);
+      });
     }
 
     const hoursForm = document.querySelector('#tracker-form');
     const stopForm = document.querySelector('#stop-form');
     document.querySelector('#add-break').addEventListener('click', () => addBreak(document.querySelector('#breaks'), calculateHours));
     document.querySelector('#add-stop-break').addEventListener('click', () => addBreak(document.querySelector('#stop-breaks'), calculateStopTime));
-    hoursForm.addEventListener('submit', calculateHours);
-    hoursForm.addEventListener('input', calculateHours);
-    stopForm.addEventListener('submit', calculateStopTime);
-    stopForm.addEventListener('input', calculateStopTime);
+    bindCalculator(hoursForm, calculateHours);
+    bindCalculator(stopForm, calculateStopTime);
 
     const tabs = [...document.querySelectorAll('[role="tab"]')];
     function selectTab(tab) {
@@ -452,10 +531,10 @@
     tabs.forEach((tab, index) => {
       tab.addEventListener('click', () => selectTab(tab));
       tab.addEventListener('keydown', event => {
-        if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
         event.preventDefault();
         const direction = event.key === 'ArrowRight' ? 1 : -1;
-        const nextTab = tabs[(index + direction + tabs.length) % tabs.length];
+        const nextTab = event.key === 'Home' ? tabs[0] : event.key === 'End' ? tabs[tabs.length - 1] : tabs[(index + direction + tabs.length) % tabs.length];
         selectTab(nextTab);
         nextTab.focus();
       });
